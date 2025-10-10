@@ -27,7 +27,7 @@ class FlatFileManager:
         If it doesn't exist, this method should create it.
         Hint: Use os.makedirs() and its `exist_ok` parameter.
         """
-        pass # fixme!
+        os.makedirs(self.storage_dir,exist_ok=True)
 
 
     def _init_index(self) -> None:
@@ -38,18 +38,25 @@ class FlatFileManager:
         3 - Load the contents of conversations.json into self.conversations_index dictionary
         """
         index_file = os.path.join(self.storage_dir, "conversations.json")
-        pass # fixme!
+       #check if index file exists
+        if not os.path.exists(index_file):
+            #create and save initial empty index file
+            self.save_index()
+        # load the index
+        with open(index_file, "r") as f: #opens index with "r"ead permission, saves as var f
+            self.conversations_index = json.load(f)
 
     def save_index(self) -> None:
         """
         --- TODO 3: Save the conversations index to disk ---
-        This method should save the current state of self.conversations_index 
+        This method should save the current state of self.conversations_index
         to the conversations.json file in the storage directory.
         Ensure the JSON is human-readable by using proper formatting.
         Hint: Use json.dump() with the 'indent' parameter for readable formatting.
         """
         index_file = os.path.join(self.storage_dir, "conversations.json")
-        pass #fixme!
+        with open(index_file, "w") as f: #opens index with "write" permission, saves as var f
+            json.dump(self.conversations_index, f, indent=4)
 
     def get_conversation(self, conversation_id: str) -> List[any]:
         """
@@ -61,7 +68,15 @@ class FlatFileManager:
             - If the file does not exist it should return an empty list `[]` without raising an error.
             Hint: Use a try-except block to handle error case.
         """
-        pass # fixme!
+        index_file = self.conversations_index.get(conversation_id)
+        if index_file == None:
+            return []
+        try:
+            with open(index_file, "r") as f:
+                return json.load(f)             ## TODO: test
+        except:
+            return []
+
 
     def save_conversation(self, conversation_id: str, relative_filepath: str, messages: List[any]) -> None:
         """
@@ -74,7 +89,10 @@ class FlatFileManager:
             - Use JSON formatting to make the file human-readable (e.g., indentation).
             Hint: Use `json.dump()` with the `indent` parameter.
         """
-        pass # fixme!
+        self.conversations_index.pop(conversation_id,relative_filepath) # adds conversation to dictionary
+        with open(relative_filepath, "w") as f:
+            json.dump(messages, f, indent=4)
+        ## TODO: TEST
 
     def run_tests(self):
         print("Testing FlatFileManager._ensure_storage_exists()")

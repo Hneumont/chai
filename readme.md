@@ -4,7 +4,7 @@ This repository contains the source code for the "Chai" command-line AI chat app
 
 ## Author
 
-**Name:** [TODO: Add Your Name Here]
+**Hector Berumen**
 
 ## Lab 1: Flat-File Persistence
 
