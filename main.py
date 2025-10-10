@@ -14,8 +14,7 @@ def main():
     # Create an instance of the FlatFileManager, passing the user_id to it.
     # This object will handle all our file reading and writing.
     # Specify the storage directory as "data"
-    db_manager = FlatFileManager(user_id) # fixed!
-    db_manager.storage_dir = "data"
+    db_manager = FlatFileManager(f"data/{user_id}") # fixed!
 
     # --- TODO 6 (do this last): Create a way for a user_id to have multiple conversation threads
     # Requirements:
@@ -69,7 +68,8 @@ def run_chat(db_manager: FlatFileManager, conversation_id: str) -> None:
 
         # 4. Save the *entire*, updated list of messages back to the file.
         #    Call your db_manager's save method.
-        relative_filepath = f"{conversation_id}.json"
+        # relative_filepath = f"data{conversation_id}.json" <- bad code
+        relative_filepath = f"data/{conversation_id.replace('_conversation','')}/{conversation_id}.json"
         # fixme! use db manager save method here
         db_manager.save_conversation(conversation_id, relative_filepath, messages) #TODO: TEST
         # ----------------------------------------------------
