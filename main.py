@@ -69,7 +69,7 @@ def run_chat(db_manager: FlatFileManager, conversation_id: str) -> None:
         # 4. Save the *entire*, updated list of messages back to the file.
         #    Call your db_manager's save method.
         # relative_filepath = f"data{conversation_id}.json" <- bad code
-        relative_filepath = f"data/{conversation_id.replace('_conversation','')}/{conversation_id}.json"
+        relative_filepath = f"data/{conversation_id.replace('_conversation','')}/conversations.json"
         # fixme! use db manager save method here
         db_manager.save_conversation(conversation_id, relative_filepath, messages) #TODO: TEST
         # ----------------------------------------------------
