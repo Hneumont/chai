@@ -26,7 +26,7 @@ def main():
     #connection_string = f"mongodb+srv://{user}:{password}@cluster0.3walskx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
     # example for Local mongodb
-    # connection_string = "mongodb://localhost:27017/"
+    connection_string = "mongodb://localhost:27017/"
 
     db_manager = MongoDBManager(connection_string=connection_string, database_name="chai_db")
 
@@ -43,7 +43,8 @@ def main():
     #    - Prompt for a new thread name (already done for you, skip to next)
     #    - Store the new thread_name
 
-    threads = None  # fixme!
+
+    threads = MongoDBManager.list_user_threads(user_id)  # TEST!
 
     for i, thread_name in enumerate(threads):
         print(f"{i}. {thread_name}")

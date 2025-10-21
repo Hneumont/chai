@@ -1,0 +1,53 @@
+This folder is setup exclusively to use the project within the Zed IDE (available at zed.dev)
+
+this file might seem auto-generated, I want to clarify right now that it is not, I just want to have redundancy incase something breaks
+
+===============================================================
+
+Some useful commands to setup python:
+place everything inside [] into a tasks.json folder within
+a .zed folder in the project's directory, zed will recognize the command,
+default keybind is alt-shift-T on windows, ctrl-shift-T on other systems to open command browser.
+[
+  {
+    "label": "install uv",
+    "command": "pip install uv",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  }
+  {
+    "label": "setup uv",
+    "command": "uv venv",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  }
+  {
+    "label": "run current file (python)",
+    "command": "uv run $ZED_FILE",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  }
+]
+
+===============================================================
+
+Additional settings:
+(place these within the settings file, default keybind Ctrl+Alt+,
+| a settings.json file can also be placed within the project's .zed folder for the same effect locally)
+
+this config seems to be somewhat neccesary as the default python interpreter/language server (basedpyright) detects function parameters
+or variables declared outside of a function to be invalid and causes errors where there aren't actually any.
+
+*It should be noded that pylsp is not included by default and must be obtained through the extentions tab (default: Ctrl+Shift+X )
+**python-refactoring is not neccesary
+
+"languages": {
+    "Python": {
+      "language_servers": [
+        "pylsp",
+        "python-refactoring",
+        "!ruff",
+        "!basedpyright"
+      ]
+    }
+  }

@@ -27,8 +27,8 @@ class MongoDBManager:
         # Hint: self.client[database_name] gets a database
         # Hint: db[collection_name] gets a collection - use "conversations" as the collection_name
         self.client = MongoClient(connection_string)
-        self.db = None #fixme!
-        self.conversations = None #fixme!
+        self.db = self.client[database_name] #fixme!
+        self.conversations = self.db[conversations] #fixme!
 
         self._ensure_indexes()
 
@@ -61,7 +61,7 @@ class MongoDBManager:
 
         Hint: find_one({"user_id": user_id, "thread_name": thread_name})
         """
-        # document = self.conversations. fixme!
+        document = self.conversations.find_one({"user_id": user_id, "thread_name": thread_name}) # TEST ME
         if not document or "messages" not in document:
             return []
         return document["messages"]
@@ -92,11 +92,17 @@ class MongoDBManager:
 
         Hint: self.conversations.update_one({filter goes here}, {update goes here}, upsert=True)
         """
-        conversation_id = f"{}_{}" # fixme!
-        # fixme! add fields to document
+        conversation_id = f"{user_id}_{thread_name}" # TEST!
+        # TEST! add fields to document
         document = {
+            "_id": conversation_id,
+            "user_id": user_id,
+            "thread_name": thread_name,
+            "messages": messages,
+            "created_at": datetime.now(UTC).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat()
         }
-        # fixme! self.conversations.
+        self.conversations.update_one({"_id": conversation_id},{"$set": document},upsert=True) # TEST!
 
     def append_message(self, user_id: str, thread_name: str, message: Dict) -> None:
         """
@@ -120,11 +126,11 @@ class MongoDBManager:
         Hint: $push adds to an array, $setOnInsert sets values only on insert
         Hint: update_one(filter, {"$push": {...}, "$set": {...}, "$setOnInsert": {...}}, upsert=True)
         """
-        conversation_id = "" #fixme!
+        conversation_id = f"{user_id}_{thread_name}" #fixme!
         # fixme! fill out update
         update = {
-            "$push": {},
-            "$set": {},
+            "$push": {"messages": message},
+            "$set": {"updated_at": datetime.now(UTC).isoformat()},
             "$setOnInsert": {
             }
         }
@@ -151,7 +157,7 @@ class MongoDBManager:
 
         Hint: list(self.conversations.find({"user_id": user_id}, {"thread_name": True, "_id": False}))
         """
-        matches = list(self.conversations.find({}, {})) # fixme!
+        matches = list(self.conversations.find({"user_id": user_id}, {"thread_name": True, "_id": False})) # fixme!
         thread_names = []
         for record in matches:
             thread_names.append(record["thread_name"])
