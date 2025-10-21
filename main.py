@@ -67,7 +67,7 @@ def main():
         thread_name = input("Enter thread name:")
         # Store new thread name
         # fixme!
-        # db_manager.save_conversation
+        db_manager.save_conversation(user_id,thread_name,messages)
     else:
         thread_name = threads[choice]
 
@@ -84,9 +84,9 @@ def run_chat(db_manager: MongoDBManager, user_id: str, thread_name: str) -> None
     # --- TODO 3: Load and display existing conversation ---
     # Time how long it takes to load the conversation
     start_time = time.perf_counter()
-    messages = None  # fixme! Use get_conversation
-    end_time = None # fixme!
-    duration = None # fixme!
+    messages = db_manager.get_conversation(user_id,thread_name)  # TEST! Use get_conversation
+    end_time = time.perf_counter() # TEST!
+    duration = start_time - end_time # TEST!
 
     if messages:
         print(f"\n--- Conversation History ({len(messages)} messages) ---")
@@ -114,7 +114,7 @@ def run_chat(db_manager: MongoDBManager, user_id: str, thread_name: str) -> None
         # Note: We're calling append_message() TWICE (once for user, once for AI)
         # This is different from Lab 1 where we did one big write!
 
-        start_time = None  # fixme!
+        start_time = time.perf_counter()  # TEST!
 
         # Append user message
         user_message = {"role": "user", "content": user_input}
@@ -127,8 +127,8 @@ def run_chat(db_manager: MongoDBManager, user_id: str, thread_name: str) -> None
         # fixme! Use append_message
         #db_manager.
 
-        end_time = None  # fixme!
-        duration = None  # fixme!
+        end_time = time.perf_counter()  # TEST!
+        duration = start_time-end_time  # TEST!
 
         print(f"AI: {ai_response}")
         print(f"(Operation took {duration:.4f} seconds)")

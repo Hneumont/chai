@@ -12,6 +12,9 @@ This lab focuses on building the foundational persistence layer using a simple f
 
 ## Questions:
 
+I could not test any code as it could not properly connect to MongoDB; Compass identified that the database and collection existed however mongodb_manager.py could not.
+test_mongo_connection.py keeps outputting that the connection was succesful and so I haven't a clue what is wrong.
+
 ### Question 1: Performance test:
 
 - How append times changed as the number of messages gew for flat files vs MongoDB?
@@ -51,4 +54,6 @@ Describe:
   - TBD
 - A scenario where you would choose the seperate messages design instead
   - TBD
+
+
 *(This is a real design decision MongoDB developers face. There's no single "right" answer because it depends on your access patterns and scale.)*
