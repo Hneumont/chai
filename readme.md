@@ -21,7 +21,7 @@ This lab focuses on building the foundational persistence layer using a simple f
 
 ### Question 2: Atomic Operations:
 
--In MongoDBManager, we use the $push operater in append_message(). Research what "atomic operations" means in the context of databases. Why is this important for a chat application where multiple messages might be added rapidly?
+- In MongoDBManager, we use the $push operater in append_message(). Research what "atomic operations" means in the context of databases. Why is this important for a chat application where multiple messages might be added rapidly?
   - Atomic Operations in databases mean that operations are completed either all at once or not completed at all;
   When dealing with multiple rapidly adding messages, this is important as you want to be able to see all messages both from the chat bot and from the user.
 
